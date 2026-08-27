@@ -87,14 +87,14 @@ const impact = await getChangeImpactFacts({
 | `--language LANG` | 空 | 语言过滤 |
 | `--format json\|jsonl` | json | 输出格式 |
 | `--hash` | 关 | 计算文件 sha256（按原始字节） |
-| `--strict` | 关 | 输出校验失败时非零退出 |
+| `--strict` | 关 | 存在错误或警告时非零退出 |
 | `--follow-symlinks` | 关 | 跟随符号链接（目标必须在仓库内） |
 | `--cache` / `--cache-dir DIR` | 关 | v0.2 增量扫描缓存（只写临时目录） |
 | `--parsers a,b` | heuristic | v0.3 符号解析器链（tree-sitter 为可选依赖，缺失自动回退） |
 | `--symbol-name/file/module` | 空 | v0.2 符号查询过滤 |
 | `--perf-budget-ms N` | 60000 | v1.0 性能预算（0 关闭；超限写 warning） |
 
-退出码：`0` 成功；`1` 扫描完成但有可恢复警告；`2` 参数错误或仓库路径无效；`3` 输出失败或契约错误。
+退出码：`0` 成功；`1` 存在错误，或 `--strict` 下存在警告；`2` 参数错误或仓库路径无效；`3` 输出失败或契约错误。
 
 ## 安全红线
 

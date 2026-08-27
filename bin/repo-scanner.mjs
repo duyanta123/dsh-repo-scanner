@@ -28,7 +28,7 @@ Options:
   --language LANG        按语言过滤文件
   --format json|jsonl    输出格式（默认 json）
   --hash                 计算文件 sha256
-  --strict               输出校验失败、路径越界时非零退出
+  --strict               本应当失败的错误（输出校验、路径越界、存在错误）或警告时非零退出
   --follow-symlinks      跟随符号链接（默认关闭，链接目标必须在仓库内）
   --cache                启用增量扫描缓存（只写系统临时目录）
   --cache-dir DIR        缓存目录（默认 os.tmpdir()/dsh-repo-scanner-cache）
@@ -259,7 +259,8 @@ async function main() {
 
     const warnings = report.limits?.warnings?.length || 0;
     const errors = report.errors?.length || 0;
-    if (warnings > 0 || errors > 0) {
+    // 仅错误始终非零退出；警告默认不影响退出码，仅在 strict 下使命令失败。
+    if (errors > 0 || (parsed.options.strict && warnings > 0)) {
       process.exit(1);
     }
     process.exit(0);
