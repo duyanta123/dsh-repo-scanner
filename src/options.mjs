@@ -102,12 +102,20 @@ export function toPosixPath(value) {
 }
 
 /**
+ * 判断是否为 Windows 盘符（`C:\`/`C:/`）或 UNC（`\\server`）绝对路径。
+ * POSIX 上 path.isAbsolute 认不出这些，必须独立检测以防越界。
+ */
+function isWindowsAbsolutePath(text) {
+  return /^[A-Za-z]:[\\/]/.test(text) || text.startsWith('\\\\');
+}
+
+/**
  * 解析目录扫描范围，过滤空值和越界候选。
  */
 function assertRelativeDir(dir) {
   if (dir == null || dir === '') return;
   const text = String(dir);
-  if (path.isAbsolute(text) || text.split('/').includes('..') || text.split('\\').includes('..')) {
+  if (path.isAbsolute(text) || isWindowsAbsolutePath(text) || text.split('/').includes('..') || text.split('\\').includes('..')) {
     throw new PathTraversalError(text, 'directory filters must stay inside repository');
   }
 }
@@ -282,7 +290,7 @@ export function safeJoin(baseDir, relativePath) {
   if (relativePath == null) return baseDir;
   const text = String(relativePath);
   if (text.includes('\0')) throw new PathTraversalError(text, 'path contains null byte');
-  if (path.isAbsolute(text)) throw new PathTraversalError(text, 'absolute path is not allowed');
+  if (path.isAbsolute(text) || isWindowsAbsolutePath(text)) throw new PathTraversalError(text, 'absolute path is not allowed');
   const candidate = path.resolve(baseDir, text);
   const rel = path.relative(baseDir, candidate);
   if (rel === '' || rel.startsWith('..') || path.isAbsolute(rel)) {
