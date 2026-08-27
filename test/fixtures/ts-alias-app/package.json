@@ -1,0 +1,9 @@
+{
+  "name": "ts-alias-app",
+  "version": "1.0.0",
+  "description": "TypeScript fixture with tsconfig paths and extends",
+  "main": "src/api/index.ts",
+  "scripts": {
+    "build": "tsc"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "node-app",
+  "version": "1.0.0",
+  "description": "Node fixture service",
+  "main": "src/index.ts",
+  "bin": {"node-app":"bin/cli.js"},
+  "scripts": {
+    "start": "node src/api/server.ts",
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  }
+}

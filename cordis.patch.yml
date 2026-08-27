@@ -1,0 +1,6 @@
+# cordis patch manifest for dsh-repo-scanner
+name: dsh-repo-scanner
+version: 0.1.0
+entry: plugin/index.js
+skills:
+  - repo-scanner-runbook

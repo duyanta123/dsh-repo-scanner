@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "analysis_schema": { "name": "dsh-analysis-schema", "version": "1.0" },
+  "tool": {
+    "name": "dsh-repo-scanner",
+    "version": "1.0.0"
+  },
+  "input": {
+    "repo_path": ".",
+    "resolved_path": "C:/work/app",
+    "options": {
+      "modes": ["probe", "files", "scan", "deps", "entry", "symbols", "graphs"],
+      "language": null,
+      "hash": false,
+      "strict": false,
+      "follow_symlinks": false,
+      "cache": false,
+      "parsers": ["heuristic"],
+      "symbol_query": null
+    }
+  },
+  "limits": {
+    "max_depth": 3,
+    "max_files": 2000,
+    "max_file_bytes": 256000,
+    "truncated": false,
+    "warnings": []
+  },
+  "project": {
+    "name": "app",
+    "description": "Example service",
+    "language": "typescript",
+    "repo_type": "service",
+    "repo_type_evidence": ["Dockerfile/compose"],
+    "tech_stack": ["typescript", "npm"],
+    "manifest_files": ["package.json"],
+    "openapi_files": ["openapi.yaml"],
+    "graphql_files": [],
+    "db_migration_files": ["db/migrations/001_init.sql"],
+    "file_count": 6,
+    "source_file_count": 3,
+    "confidence": "high",
+    "language_evidence": ["src/api/server.ts"]
+  },
+  "files": [
+    {"path": "package.json", "kind": "manifest", "language": null, "bytes": 260, "lines": 14},
+    {"path": "src/api/server.ts", "kind": "source", "language": "typescript", "bytes": 120, "lines": 8},
+    {"path": "src/auth/service.ts", "kind": "source", "language": "typescript", "bytes": 88, "lines": 6}
+  ],
+  "modules": [
+    {"name": "api", "path": "src/api", "language": "typescript", "file_count": 1, "file_paths": ["src/api/server.ts"], "key_files": ["src/api/server.ts"], "evidence": ["src/* directory"], "confidence": "high"},
+    {"name": "auth", "path": "src/auth", "language": "typescript", "file_count": 1, "file_paths": ["src/auth/service.ts"], "key_files": ["src/auth/service.ts"], "evidence": ["src/* directory"], "confidence": "high"}
+  ],
+  "dependencies": {
+    "internal": [
+      {
+        "source": "src/api/server.ts",
+        "target": "src/auth/service.ts",
+        "kind": "import",
+        "spec": "../auth/service",
+        "line": 2,
+        "confidence": "high",
+        "resolution": "relative import resolved to src/auth/service.ts",
+        "locations": [{"line": 2, "spec": "../auth/service"}]
+      }
+    ],
+    "external": [
+      {"source": "src/api/server.ts", "package": "express", "version": "4.18.2", "spec": "express", "line": 1, "kind": "import", "confidence": "high", "locations": [{"line": 1, "spec": "express"}]}
+    ]
+  },
+  "entry_points": [
+    {"type": "web", "path": "src/api/server.ts", "line": 4, "evidence": ["express("], "confidence": "medium"}
+  ],
+  "run_methods": [
+    {"name": "start", "command": "node src/api/server.ts", "source": "package.json", "type": "script", "line": null, "confidence": "high"}
+  ],
+  "symbols": [
+    {"name": "makeApp", "kind": "function", "path": "src/api/server.ts", "start_line": 3, "end_line": 7, "language": "typescript", "visibility": "exported", "parser": "heuristic", "confidence": "medium"},
+    {"name": "makeApp", "kind": "export", "path": "src/api/server.ts", "start_line": 3, "end_line": 3, "language": "typescript", "visibility": "exported", "parser": "heuristic", "confidence": "high"}
+  ],
+  "graphs": {
+    "module_call_graph": {
+      "nodes": [
+        {"name": "api", "path": "src/api", "file_count": 1},
+        {"name": "auth", "path": "src/auth", "file_count": 1}
+      ],
+      "edges": [
+        {"source": "src/api", "target": "src/auth", "weight": 1, "imports": [{"source": "src/api/server.ts", "target": "src/auth/service.ts"}]}
+      ]
+    },
+    "symbol_references": [
+      {"source_file": "src/api/server.ts", "target_file": "src/auth/service.ts", "symbol": "AuthService", "kind": "named-import", "line": 2, "confidence": "high"}
+    ]
+  },
+  "risks": [],
+  "errors": [],
+  "performance": {
+    "elapsed_ms": 42,
+    "files_indexed": 3,
+    "bytes_read": 468,
+    "cache": {"hits": 0, "misses": 3},
+    "budgets": {"max_files": 2000, "max_file_bytes": 256000, "max_scan_ms": 60000},
+    "budget_exceeded": []
+  },
+  "git": null
+}

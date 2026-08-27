@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [18, 20, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Syntax check (all modules)
+        run: npm run check
+      - name: Tests (functional + security audit)
+        run: npm test
+      - name: CLI smoke test
+        shell: bash
+        run: |
+          node bin/repo-scanner.mjs test/fixtures/node-app --probe --json > /dev/null
+          node bin/repo-scanner.mjs test/fixtures/node-app --all --json > /dev/null

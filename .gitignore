@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+coverage/
+
+# Test & cache artifacts
+.nyc_output/
+*.log
+dsh-repo-scanner-cache/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

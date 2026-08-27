@@ -1,0 +1,7 @@
+{
+  // JSONC 注释应当被容忍
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "strict": true
+  }
+}

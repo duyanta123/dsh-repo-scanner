@@ -1,0 +1,10 @@
+{
+  "name": "security-app",
+  "version": "1.0.0",
+  "description": "Security fixture with secrets in scripts",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "API_TOKEN=sk-live-9f8e7d6c5b4a node src/index.js",
+    "migrate": "DATABASE_URL=postgres://admin:supersecret@db.local:5432/app node src/index.js"
+  }
+}

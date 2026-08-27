@@ -1,0 +1,41 @@
+{
+  "name": "dsh-repo-scanner",
+  "version": "1.0.0",
+  "description": "只读仓库事实扫描内核：为 DeepSeek Harness 分析型插件提供可复现的代码库事实。",
+  "type": "module",
+  "main": "./src/index.mjs",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "bin": {
+    "repo-scanner": "./bin/repo-scanner.mjs",
+    "dsh-repo-scanner": "./bin/repo-scanner.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "plugin",
+    "skills",
+    "docs",
+    "examples",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "PUBLISHING.md",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "test": "node --test test/repo-scanner.test.mjs test/security.test.mjs",
+    "check": "node --check bin/repo-scanner.mjs && node --check src/index.mjs && node --check src/options.mjs && node --check src/filesystem.mjs && node --check src/probe.mjs && node --check src/modules.mjs && node --check src/dependencies.mjs && node --check src/entries.mjs && node --check src/symbols.mjs && node --check src/parsers.mjs && node --check src/graphs.mjs && node --check src/git.mjs && node --check src/output.mjs && node --check src/errors.mjs && node --check src/cache.mjs && node --check src/facts.mjs && node --check plugin/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "repo-scanner",
+    "static-analysis",
+    "readonly"
+  ],
+  "license": "MIT"
+}
