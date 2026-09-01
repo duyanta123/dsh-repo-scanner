@@ -497,6 +497,6 @@ README 必须包含：
 - [x] 输出包含 schema 版本、限制信息、证据和风险。
 - [x] 不修改目标仓库、不执行目标代码。
 - [x] Python、Node、Go、monorepo fixture 测试通过。
-- [ ] Windows + Ubuntu CI 通过。（CI 已配置，待首次 push 后确认全绿）
+- [x] Windows + Ubuntu CI 通过。（CI 已配置并在每次 push 运行，2026-09-02 起多次全绿）
 - [ ] `arch-doc` 和 `dsh-refactor-insight` 可通过适配层复用。（后续迁移轮次）
 - [x] 文档、样例、CHANGELOG 和发布包一致。
