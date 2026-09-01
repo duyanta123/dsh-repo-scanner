@@ -1,5 +1,10 @@
 # dsh-repo-scanner
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4c1d95)](https://github.com/topics/dsh-plugin)
+[![CI](https://github.com/duyanta123/dsh-repo-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/duyanta123/dsh-repo-scanner/actions/workflows/ci.yml)
+[![version](https://img.shields.io/badge/version-0.1.0-green)](CHANGELOG.md)
+
 面向 DeepSeek Harness 分析型插件（`arch-doc`、`dsh-refactor-insight`、`dsh-change-impact`、`dsh-test-insight`）的统一、可复现、只读的代码库事实扫描内核。
 
 只读：不修改目标仓库，不安装依赖，不执行项目代码。
