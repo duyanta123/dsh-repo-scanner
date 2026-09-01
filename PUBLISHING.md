@@ -15,8 +15,9 @@
 
 ## 发布渠道
 
-0. **前置（待办）**：GitHub 仓库当前名为 `duyanta123/-dsh-repo-scanner`（建仓时多了一个连字符）。对外收录前先在 GitHub 改名为 `dsh-repo-scanner`（旧名会自动重定向），并同步本地 remote URL。
-1. push `main`，确认 GitHub Actions CI 全绿（Node 18/20/22 × Windows/Ubuntu）。
-2. 打 tag `v0.1.0` 并推送。
+1. push `main`，确认 GitHub Actions CI 全绿（Node 18/20/22 × Windows/Ubuntu）。（2026-09-02 首推已绿）
+2. 打 tag `v0.1.0` 并推送。（已完成）
 3. （可选）`npm publish --access public`。
 4. 提交收录：awesome-dsh-plugin（`data/plugins/duyanta123__dsh-repo-scanner.yml`）与 awesome-deepseek-harness（en/zh README 条目，同一 PR）。
+
+> 注：GitHub 仓库原名 `-dsh-repo-scanner`（建仓笔误）已于 2026-09-02 更名为 `dsh-repo-scanner`，旧链接自动重定向。
