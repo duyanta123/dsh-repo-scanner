@@ -4,7 +4,10 @@
 
 ## Unreleased
 
-- 新增 `prepublishOnly` 钩子：npm 发布前自动运行测试门禁。
+- 新增 bundle 契约测试（`test/manifest.test.mjs`）：`dsh.bundle.patch` 声明、config-tree `- insert:` 格式、技能 frontmatter 必填 name（kebab-case）+ description——对齐期间的几类断裂今后在 CI 即可拦截。
+- README 补 license / DSH / CI / version 徽章，对齐其余四仓样式。
+- `prepublishOnly` 钩子：npm 发布前自动运行测试门禁。
+- PUBLISHING.md 记录 awesome-dsh-plugin 收录门槛（仓库 ≥1 天 / ≥10 提交 / `dsh-plugin` topic）。
 
 ## 0.1.0 - 2026-09-02
 

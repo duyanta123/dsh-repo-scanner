@@ -18,6 +18,13 @@
 1. push `main`，确认 GitHub Actions CI 全绿（Node 18/20/22 × Windows/Ubuntu）。（2026-09-02 首推已绿）
 2. 打 tag `v0.1.0` 并推送。（已完成）
 3. （可选）`npm publish --access public`。
-4. 提交收录：awesome-dsh-plugin（`data/plugins/duyanta123__dsh-repo-scanner.yml`）与 awesome-deepseek-harness（en/zh README 条目，同一 PR）。
+4. 提交收录：awesome-dsh-plugin（`data/plugins/duyanta123__dsh-repo-scanner.yml`）与 awesome-deepseek-harness（en/zh README 条目，同一 PR）。（均已提交 PR，等待审核）
 
 > 注：GitHub 仓库原名 `-dsh-repo-scanner`（建仓笔误）已于 2026-09-02 更名为 `dsh-repo-scanner`，旧链接自动重定向。
+
+## awesome-dsh-plugin 收录门槛（Submission gate）
+
+- 仓库需**创建满 1 天且 ≥10 个提交**（自动检查，过滤一次性投稿仓；重提不受影响）。本仓建仓时大提交导致历史偏短，PR #4125 曾因 `repository has 6 commit(s) (needs 10)` 被拦——补齐契约测试、徽章等真实收尾提交后达到门槛。
+- 仓库 `package.json` 必须声明 `dsh.bundle`（根包或 packages/ 子包），只声明 `dsh.client` 会被拒。
+- 需给仓库加 GitHub topic `dsh-plugin`。
+- 检查失败后向**同一分支**推送修复即可，无需重开 PR。
