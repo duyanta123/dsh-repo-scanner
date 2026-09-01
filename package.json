@@ -1,28 +1,30 @@
 {
   "name": "dsh-repo-scanner",
-  "version": "1.0.0",
-  "description": "只读仓库事实扫描内核：为 DeepSeek Harness 分析型插件提供可复现的代码库事实。",
+  "version": "0.1.0",
+  "description": "只读仓库事实扫描内核：为 DeepSeek Harness 分析型插件提供可复现的代码库事实。Read-only repository fact scanner kernel for DeepSeek Harness analysis plugins.",
   "type": "module",
-  "main": "./src/index.mjs",
+  "main": "./plugin/index.js",
   "exports": {
-    ".": "./src/index.mjs"
+    ".": "./plugin/index.js",
+    "./scanner": "./src/index.mjs",
+    "./package.json": "./package.json"
   },
   "bin": {
     "repo-scanner": "./bin/repo-scanner.mjs",
     "dsh-repo-scanner": "./bin/repo-scanner.mjs"
   },
   "files": [
+    "plugin/index.js",
+    "cordis.patch.yml",
+    "skills/",
     "src",
     "bin",
-    "plugin",
-    "skills",
     "docs",
     "examples",
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
-    "PUBLISHING.md",
-    "cordis.patch.yml"
+    "PUBLISHING.md"
   ],
   "scripts": {
     "test": "node --test test/repo-scanner.test.mjs test/security.test.mjs",
@@ -31,7 +33,22 @@
   "engines": {
     "node": ">=18"
   },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-skill-filesystem": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-skill-filesystem": {
+      "optional": true
+    }
+  },
   "keywords": [
+    "dsh",
+    "dsh-plugin",
     "deepseek-harness",
     "repo-scanner",
     "static-analysis",

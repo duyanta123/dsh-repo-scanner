@@ -24,7 +24,7 @@
 ## 调用示例
 
 ```js
-import { scanRepository } from 'dsh-repo-scanner';
+import { scanRepository } from 'dsh-repo-scanner/scanner';
 
 const report = await scanRepository({ repoPath, modes: ['probe', 'scan', 'deps'] });
 ```

@@ -34,7 +34,7 @@
 - external：package 导入 + manifest 版本声明。
 - 动态 import/require、变量 spec 不猜测 target，记入 `risks`。
 - JS/TS 相对路径解析扩展名：`.ts` `.tsx` `.mts` `.cts` `.js` `.jsx` `.mjs` `.cjs` `.json` 与目录 index。
-- TypeScript `paths` 别名（v0.2 增强）：
+- TypeScript `paths` 别名：
   - 支持 tsconfig `extends` 链（相对路径，最多 5 层，子配置优先）。
   - 一个 pattern 的多个 target 按声明顺序依次尝试。
   - 支持 JSONC（`//` 与 `/* */` 注释）。
@@ -42,14 +42,14 @@
 - Python：相对导入、`__init__.py` 包、无 `__init__.py` 的 src 布局命名空间包。
 - Go：`go.mod` module 前缀导入；目录导入取该目录内首个 `.go` 文件。
 
-## 符号解析（v0.3 可插拔解析器）
+## 符号解析（可插拔解析器）
 
 - 默认 `heuristic`：零依赖正则启发式，输出带 `confidence`。
 - `parsers: ['tree-sitter']`：可选依赖；未安装时自动回退 heuristic 并写入 `E_PARSER_UNAVAILABLE` 警告。
 - 第三方可通过 `registerParser(name, { languages, extractFile })` 注册自定义解析器。
 - 启用 `cache` 后符号结果随文件缓存（mtime/size 失效），未变化文件不重复解析。
 
-## 增量缓存（v0.2 / v1.0 增量索引）
+## 增量缓存与增量索引
 
 - `cache: true` 开启；缓存只写系统临时目录（`--cache-dir` 可自定义），绝不写目标仓库。
 - 按文件 `mtime + size` 判定失效；`--hash` 时缓存 sha256 结果。

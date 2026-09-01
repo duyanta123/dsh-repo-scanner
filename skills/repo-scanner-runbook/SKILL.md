@@ -1,3 +1,8 @@
+---
+name: repo-scanner-runbook
+description: 只读仓库事实扫描：输入一个代码库路径，确定性地提取仓库探测、文件索引、模块识别、依赖关系、入口点、符号定位与 Git 变更基线等硬事实（JSON 输出）。需要摸清陌生项目结构、提取模块依赖、定位函数符号、分析变更影响或为其他分析插件提供扫描事实时加载本技能。
+---
+
 # repo-scanner-runbook
 
 只读仓库事实扫描器 runbook。扫描器不修改仓库、不安装依赖、不执行项目代码。
@@ -25,7 +30,7 @@ node bin/repo-scanner.mjs <repo_path> --all --perf-budget-ms 30000       # 性�
 ## 库接口
 
 ```js
-import { scanRepository } from 'dsh-repo-scanner';
+import { scanRepository } from 'dsh-repo-scanner/scanner';
 
 const report = await scanRepository({
   repoPath: '.',
@@ -33,12 +38,12 @@ const report = await scanRepository({
   git: { diffText },
 });
 
-// v1.0 事实 API
+// 事实 API
 import {
   getChangeImpactFacts,
   getTestInsightFacts,
   getDocSyncFacts,
-} from 'dsh-repo-scanner';
+} from 'dsh-repo-scanner/scanner';
 ```
 
 ## 输出字段

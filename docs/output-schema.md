@@ -48,14 +48,14 @@
 | repo_type_evidence | array | 判定证据 |
 | tech_stack | array | 技术栈标签 |
 | manifest_files | array | manifest 文件路径 |
-| openapi_files | array | OpenAPI/Swagger 契约文件（v0.2） |
-| graphql_files | array | GraphQL schema 文件（v0.2） |
-| db_migration_files | array | 数据库迁移文件（v0.2） |
+| openapi_files | array | OpenAPI/Swagger 契约文件 |
+| graphql_files | array | GraphQL schema 文件 |
+| db_migration_files | array | 数据库迁移文件 |
 | file_count / source_file_count | number | 文件统计 |
 | language_evidence | array | 主语言证据文件 |
 | confidence | string | high/medium |
 
-## graphs 字段（v0.3）
+## graphs 字段
 
 ```json
 {
@@ -85,7 +85,7 @@
 | method | string/null | changed_files 的来源方式 |
 | warnings | array | Git 相关警告 |
 
-## 事实 API 输出（v1.0）
+## 事实 API 输出
 
 `getChangeImpactFacts` / `getTestInsightFacts` / `getDocSyncFacts` 返回独立外壳（含 schema_version、analysis_schema、tool），字段：
 

@@ -4,6 +4,16 @@
 
 只读：不修改目标仓库，不安装依赖，不执行项目代码。
 
+## 作为 DSH 插件安装
+
+本包按 DSH bundle 规范打包（`package.json` 声明 `dsh.bundle.patch`），安装后自动注册 `repo-scanner-runbook` 技能：
+
+```sh
+dsh plugin --profile web add "github:duyanta123/dsh-repo-scanner#main"
+```
+
+安装后重启 `dsh --profile web`，技能即可被发现；技能只在需要时加载 runbook，扫描本身通过 shell 调用 CLI 完成。上层插件（dsh-change-impact / dsh-test-insight 等）以库形式依赖本包时，经 exports 子路径 `dsh-repo-scanner/scanner` 引入扫描内核。
+
 ## 快速开始
 
 ```bash
@@ -21,27 +31,27 @@ node bin/repo-scanner.mjs <repo_path> --all --json
 库接口：
 
 ```js
-import { scanRepository } from 'dsh-repo-scanner';
+import { scanRepository } from 'dsh-repo-scanner/scanner';
 
 const report = await scanRepository({
   repoPath: '.',
   modes: ['probe', 'modules', 'dependencies', 'entries', 'symbols', 'graphs', 'git'],
   maxDepth: 3,
-  cache: true,                 // v0.2 增量扫描缓存
-  parsers: ['heuristic'],      // v0.3 可插拔解析器（tree-sitter 为可选依赖）
-  symbolQuery: { name: 'auth' }, // v0.2 符号查询
+  cache: true,                 // 增量扫描缓存
+  parsers: ['heuristic'],      // 可插拔解析器（tree-sitter 为可选依赖）
+  symbolQuery: { name: 'auth' }, // 符号查询
   git: { diffText },
 });
 ```
 
-### 事实 API（v1.0）
+### 事实 API
 
 ```js
 import {
   getChangeImpactFacts, // 变更影响：反向依赖传播 + 受影响模块/符号
   getTestInsightFacts,  // 测试洞察：测试↔源码映射 + 模块覆盖
   getDocSyncFacts,      // 文档同步：文档引用 + 过期引用
-} from 'dsh-repo-scanner';
+} from 'dsh-repo-scanner/scanner';
 
 const impact = await getChangeImpactFacts({
   repoPath: '.',
@@ -55,7 +65,7 @@ const impact = await getChangeImpactFacts({
 {
   "schema_version": "1.0",
   "analysis_schema": { "name": "dsh-analysis-schema", "version": "1.0" },
-  "tool": { "name": "dsh-repo-scanner", "version": "1.0.0" },
+  "tool": { "name": "dsh-repo-scanner", "version": "0.1.0" },
   "input": { "repo_path": ".", "resolved_path": "C:/work/app", "options": {} },
   "limits": { "max_depth": 3, "max_files": 2000, "max_file_bytes": 256000, "truncated": false, "warnings": [] },
   "project": {},
@@ -89,10 +99,10 @@ const impact = await getChangeImpactFacts({
 | `--hash` | 关 | 计算文件 sha256（按原始字节） |
 | `--strict` | 关 | 存在错误或警告时非零退出 |
 | `--follow-symlinks` | 关 | 跟随符号链接（目标必须在仓库内） |
-| `--cache` / `--cache-dir DIR` | 关 | v0.2 增量扫描缓存（只写临时目录） |
-| `--parsers a,b` | heuristic | v0.3 符号解析器链（tree-sitter 为可选依赖，缺失自动回退） |
-| `--symbol-name/file/module` | 空 | v0.2 符号查询过滤 |
-| `--perf-budget-ms N` | 60000 | v1.0 性能预算（0 关闭；超限写 warning） |
+| `--cache` / `--cache-dir DIR` | 关 | 增量扫描缓存（只写临时目录） |
+| `--parsers a,b` | heuristic | 符号解析器链（tree-sitter 为可选依赖，缺失自动回退） |
+| `--symbol-name/file/module` | 空 | 符号查询过滤 |
+| `--perf-budget-ms N` | 60000 | 性能预算（0 关闭；超限写 warning） |
 
 退出码：`0` 成功；`1` 存在错误，或 `--strict` 下存在警告；`2` 参数错误或仓库路径无效；`3` 输出失败或契约错误。
 

@@ -492,11 +492,11 @@ README 必须包含：
 
 ## 12. Definition of Done
 
-- [ ] 仓库可安装为 DSH 插件。
-- [ ] CLI 支持 `probe/scan/deps/entry/symbols/git/all`。
-- [ ] 输出包含 schema 版本、限制信息、证据和风险。
-- [ ] 不修改目标仓库、不执行目标代码。
-- [ ] Python、Node、Go、monorepo fixture 测试通过。
-- [ ] Windows + Ubuntu CI 通过。
-- [ ] `arch-doc` 和 `dsh-refactor-insight` 可通过适配层复用。
-- [ ] 文档、样例、CHANGELOG 和发布包一致。
+- [x] 仓库可安装为 DSH 插件。（2026-09-02 已按现行 bundle 契约对齐：`dsh.bundle.patch` + `- insert:` manifest + FileSystemSkillProvider 入口 + 技能 frontmatter；真机 `dsh plugin add` 待发布后回归）
+- [x] CLI 支持 `probe/scan/deps/entry/symbols/git/all`。
+- [x] 输出包含 schema 版本、限制信息、证据和风险。
+- [x] 不修改目标仓库、不执行目标代码。
+- [x] Python、Node、Go、monorepo fixture 测试通过。
+- [ ] Windows + Ubuntu CI 通过。（CI 已配置，待首次 push 后确认全绿）
+- [ ] `arch-doc` 和 `dsh-refactor-insight` 可通过适配层复用。（后续迁移轮次）
+- [x] 文档、样例、CHANGELOG 和发布包一致。

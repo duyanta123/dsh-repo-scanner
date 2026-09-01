@@ -5,7 +5,7 @@
 - 库接口：
 
 ```js
-import { scanRepository } from 'dsh-repo-scanner';
+import { scanRepository } from 'dsh-repo-scanner/scanner';
 
 const report = await scanRepository({ repoPath: '.', modes: ['probe', 'scan'] });
 console.log(JSON.stringify(report, null, 2));
