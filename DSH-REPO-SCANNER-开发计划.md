@@ -432,7 +432,7 @@ DSH 插件入口只负责注册 `repo-scanner-runbook`，不把核心扫描逻�
 
 ### 跨平台测试
 
-- Node 18、20、22（独立扫描器回归矩阵）；DSH 0.1.2-rc.1 宿主另以 Node 22.12 执行 compat。
+- Node 18、20、22（独立扫描器回归矩阵）；DSH 0.1.2-rc.1 宿主另以 Node 22.19 执行 compat。
 - Windows 和 Ubuntu GitHub Actions。
 - Windows 反斜杠、UTF-8 BOM、CRLF。
 - 路径含空格和非 ASCII 字符。

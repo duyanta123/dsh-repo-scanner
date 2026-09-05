@@ -22,7 +22,7 @@ dsh plugin --profile web add "github:duyanta123/dsh-repo-scanner#main"
 ## 环境与兼容性
 
 - 库接口和 CLI 独立运行支持 Node.js >= 18；现有 Node 18/20/22 CI 是独立扫描器回归矩阵。
-- 作为 DSH 0.1.2-rc.1 宿主运行要求 Node.js >= 22.12。可运行 `npm run test:compat` 完成临时 profile 的安装、配置 dump 与启动 smoke test。
+- 作为 DSH 0.1.2-rc.1 宿主运行要求 Node.js >= 22.19。可运行 `npm run test:compat` 完成临时 profile 的安装、配置 dump 与启动 smoke test。
 - 输出 `schema_version` / `analysis_schema` 与 DSH 宿主版本独立，本次宿主升级不会改变 schema。
 
 ## 快速开始
