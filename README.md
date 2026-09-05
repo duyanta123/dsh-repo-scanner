@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4c1d95)](https://github.com/topics/dsh-plugin)
 [![CI](https://github.com/duyanta123/dsh-repo-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/duyanta123/dsh-repo-scanner/actions/workflows/ci.yml)
-[![version](https://img.shields.io/badge/version-0.1.0-green)](CHANGELOG.md)
+[![version](https://img.shields.io/badge/version-0.1.1-green)](CHANGELOG.md)
 
 面向 DeepSeek Harness 分析型插件（`arch-doc`、`dsh-refactor-insight`、`dsh-change-impact`、`dsh-test-insight`）的统一、可复现、只读的代码库事实扫描内核。
 
@@ -76,7 +76,7 @@ const impact = await getChangeImpactFacts({
 {
   "schema_version": "1.0",
   "analysis_schema": { "name": "dsh-analysis-schema", "version": "1.0" },
-  "tool": { "name": "dsh-repo-scanner", "version": "0.1.0" },
+  "tool": { "name": "dsh-repo-scanner", "version": "0.1.1" },
   "input": { "repo_path": ".", "resolved_path": "C:/work/app", "options": {} },
   "limits": { "max_depth": 3, "max_files": 2000, "max_file_bytes": 256000, "truncated": false, "warnings": [] },
   "project": {},

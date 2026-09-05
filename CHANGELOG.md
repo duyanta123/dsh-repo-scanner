@@ -4,6 +4,8 @@
 
 ## Unreleased
 
+## 0.1.1 - 2026-09-06
+
 - 新增固定 `@deepseek-ai/dsh@0.1.2-rc.1` 的 `npm run test:compat` 门禁及 Windows/Ubuntu Node 22.19 CI，覆盖隔离 profile 的 add、配置 dump 和有限时长启动。
 - 文档区分独立库/CLI 的 Node >=18 回归与 DSH 宿主 Node >=22.19 验证，并明确 `schema_version` 不随宿主版本升级。
 - 修复插件入口遗漏 `skills` 服务注入声明的问题；该问题会使 DSH 0.1.2-rc.1 在启动阶段拒绝读取 `ctx.skills`。
