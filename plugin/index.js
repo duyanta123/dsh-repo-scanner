@@ -13,6 +13,7 @@ import { dirname, join } from "node:path";
 import { FileSystemSkillProvider } from "@deepseek-ai/dsh-skill-filesystem";
 
 export const name = "dsh-repo-scanner";
+export const inject = ["skills"];
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), "..");
 const skillsDir = join(rootDir, "skills");

@@ -28,6 +28,7 @@
   ],
   "scripts": {
     "test": "node --test test/repo-scanner.test.mjs test/security.test.mjs test/manifest.test.mjs",
+    "test:compat": "node test/dsh-compat.test.mjs",
     "prepublishOnly": "npm test",
     "check": "node --check bin/repo-scanner.mjs && node --check src/index.mjs && node --check src/options.mjs && node --check src/filesystem.mjs && node --check src/probe.mjs && node --check src/modules.mjs && node --check src/dependencies.mjs && node --check src/entries.mjs && node --check src/symbols.mjs && node --check src/parsers.mjs && node --check src/graphs.mjs && node --check src/git.mjs && node --check src/output.mjs && node --check src/errors.mjs && node --check src/cache.mjs && node --check src/facts.mjs && node --check plugin/index.js"
   },

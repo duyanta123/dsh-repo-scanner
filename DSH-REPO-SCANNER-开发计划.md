@@ -432,7 +432,7 @@ DSH 插件入口只负责注册 `repo-scanner-runbook`，不把核心扫描逻�
 
 ### 跨平台测试
 
-- Node 18、20、22。
+- Node 18、20、22（独立扫描器回归矩阵）；DSH 0.1.2-rc.1 宿主另以 Node 22.12 执行 compat。
 - Windows 和 Ubuntu GitHub Actions。
 - Windows 反斜杠、UTF-8 BOM、CRLF。
 - 路径含空格和非 ASCII 字符。
@@ -493,6 +493,7 @@ README 必须包含：
 ## 12. Definition of Done
 
 - [x] 仓库可安装为 DSH 插件。（2026-09-02 已按现行 bundle 契约对齐：`dsh.bundle.patch` + `- insert:` manifest + FileSystemSkillProvider 入口 + 技能 frontmatter；真机 `dsh plugin add` 待发布后回归）
+- [ ] DSH 0.1.2-rc.1 compat：`dsh plugin add`、`--dump-config`、有限时长启动通过；不改变 `schema_version`。
 - [x] CLI 支持 `probe/scan/deps/entry/symbols/git/all`。
 - [x] 输出包含 schema 版本、限制信息、证据和风险。
 - [x] 不修改目标仓库、不执行目标代码。

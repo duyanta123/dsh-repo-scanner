@@ -15,7 +15,7 @@
 
 ## 发布渠道
 
-1. push `main`，确认 GitHub Actions CI 全绿（Node 18/20/22 × Windows/Ubuntu）。（2026-09-02 首推已绿）
+1. push `main`，确认独立扫描器回归 CI 全绿（Node 18/20/22 × Windows/Ubuntu），并确认 Node 22.12 的 DSH compat job 通过。（2026-09-02 首推已绿）
 2. 打 tag `v0.1.0` 并推送。（已完成）
 3. （可选）`npm publish --access public`。
 4. 提交收录：awesome-dsh-plugin（`data/plugins/duyanta123__dsh-repo-scanner.yml`）与 awesome-deepseek-harness（en/zh README 条目，同一 PR）。（均已提交 PR，等待审核）

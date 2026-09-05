@@ -18,12 +18,26 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - name: Syntax check (all modules)
+      - name: Syntax check (independent scanner)
         run: npm run check
-      - name: Tests (functional + security audit)
+      - name: Independent scanner regression
         run: npm test
       - name: CLI smoke test
         shell: bash
         run: |
           node bin/repo-scanner.mjs test/fixtures/node-app --probe --json > /dev/null
           node bin/repo-scanner.mjs test/fixtures/node-app --all --json > /dev/null
+
+  compat:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+      - name: DSH 0.1.2-rc.1 compatibility
+        run: npm run test:compat

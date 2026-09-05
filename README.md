@@ -19,6 +19,12 @@ dsh plugin --profile web add "github:duyanta123/dsh-repo-scanner#main"
 
 安装后重启 `dsh --profile web`，技能即可被发现；技能只在需要时加载 runbook，扫描本身通过 shell 调用 CLI 完成。上层插件（dsh-change-impact / dsh-test-insight 等）以库形式依赖本包时，经 exports 子路径 `dsh-repo-scanner/scanner` 引入扫描内核。
 
+## 环境与兼容性
+
+- 库接口和 CLI 独立运行支持 Node.js >= 18；现有 Node 18/20/22 CI 是独立扫描器回归矩阵。
+- 作为 DSH 0.1.2-rc.1 宿主运行要求 Node.js >= 22.12。可运行 `npm run test:compat` 完成临时 profile 的安装、配置 dump 与启动 smoke test。
+- 输出 `schema_version` / `analysis_schema` 与 DSH 宿主版本独立，本次宿主升级不会改变 schema。
+
 ## 快速开始
 
 ```bash
@@ -128,6 +134,7 @@ const impact = await getChangeImpactFacts({
 
 ```bash
 npm test    # 功能测试 + 安全审计测试
+npm run test:compat    # DSH 0.1.2-rc.1 宿主兼容性门禁
 npm run check
 ```
 
