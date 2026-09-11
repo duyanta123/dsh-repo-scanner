@@ -1,5 +1,7 @@
 # 从 arch-doc / dsh-refactor-insight 迁移
 
+> **状态：规划中，尚未执行**（截至 2026-09-12）。两个插件仍各自维护 `arch-profile.mjs`；本文描述的是目标状态与迁移路径，供实际迁移时参照。进展见各仓 CHANGELOG。
+
 两个插件当前各自维护 `arch-profile.mjs`。迁移顺序：
 
 1. 冻结旧输出字段，建立快照测试。

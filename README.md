@@ -1,31 +1,51 @@
 # dsh-repo-scanner
 
+English | [简体中文](README.zh-CN.md)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4c1d95)](https://github.com/topics/dsh-plugin)
 [![CI](https://github.com/duyanta123/dsh-repo-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/duyanta123/dsh-repo-scanner/actions/workflows/ci.yml)
-[![version](https://img.shields.io/badge/version-0.1.1-green)](CHANGELOG.md)
+[![npm](https://img.shields.io/badge/npm-dsh--repo--scanner-blue)](https://www.npmjs.com/package/dsh-repo-scanner)
+[![version](https://img.shields.io/badge/version-0.1.2-green)](CHANGELOG.md)
 
-面向 DeepSeek Harness 分析型插件（`arch-doc`、`dsh-refactor-insight`、`dsh-change-impact`、`dsh-test-insight`）的统一、可复现、只读的代码库事实扫描内核。
+A unified, reproducible, read-only repository fact-scanning kernel for DeepSeek Harness analysis plugins (npm package name matches the repository name: `dsh-repo-scanner`).
 
-只读：不修改目标仓库，不安装依赖，不执行项目代码。
+Read-only: never modifies the target repository, never installs dependencies, never executes project code.
 
-## 作为 DSH 插件安装
+## Positioning
 
-本包按 DSH bundle 规范打包（`package.json` 声明 `dsh.bundle.patch`），安装后自动注册 `repo-scanner-runbook` 技能：
+dsh-repo-scanner is a shared kernel: it implements "repository → structured facts" once so analysis plugins can reuse it. It serves `arch-doc`, `dsh-refactor-insight`, and `dsh-test-insight` (released) as well as the planned `dsh-change-impact`.
+
+It answers:
+- What kind of project is this (language / framework / repo type)?
+- What files, modules, symbols, and entry points exist?
+- How do internal and external dependencies relate, and are there cycles?
+- Which files and modules does a Git change touch (read-only queries)?
+- Change impact, test↔source mapping, and stale doc references (facts API)?
+
+Boundaries: a read-only kernel that draws no analytical conclusions (that is the calling plugins' job); its `schema_version` / `analysis_schema` are independent of the DSH host version, so host upgrades do not change the schema.
+
+## Installation
+
+As a DSH plugin (the package follows the DSH bundle spec — `package.json` declares `dsh.bundle.patch` — and registers the `repo-scanner-runbook` skill on install):
 
 ```sh
-dsh plugin --profile web add "github:duyanta123/dsh-repo-scanner#main"
+dsh plugin --profile web add "github:duyanta123/dsh-repo-scanner#v0.1.2"
 ```
 
-安装后重启 `dsh --profile web`，技能即可被发现；技能只在需要时加载 runbook，扫描本身通过 shell 调用 CLI 完成。上层插件（dsh-change-impact / dsh-test-insight 等）以库形式依赖本包时，经 exports 子路径 `dsh-repo-scanner/scanner` 引入扫描内核。
+Or from npm (as a library or standalone CLI):
 
-## 环境与兼容性
+```sh
+npm install dsh-repo-scanner
+```
 
-- 库接口和 CLI 独立运行支持 Node.js >= 18；现有 Node 18/20/22 CI 是独立扫描器回归矩阵。
-- 作为 DSH 0.1.5-rc.2 宿主运行要求 Node.js >= 22.19。可运行 `npm run test:compat` 完成临时 profile 的安装、配置 dump 与启动 smoke test。
-- 输出 `schema_version` / `analysis_schema` 与 DSH 宿主版本独立，本次宿主升级不会改变 schema。
+Compatibility tiers: the library interface and CLI run standalone on Node.js >= 18 (the existing Node 18/20/22 CI is the standalone scanner regression matrix); as a DSH 0.1.5-rc.2 host plugin it requires Node.js >= 22.19. Run `npm run test:compat` to complete an isolated-profile install, config dump, and startup smoke test.
 
-## 快速开始
+After installing, restart `dsh --profile web` and the skill becomes discoverable; the skill loads its runbook only when needed — scanning itself happens through shell calls to the CLI. Higher-level plugins depend on this package as a library and import the scanning kernel via the exports subpath `dsh-repo-scanner/scanner`.
+
+## Quick Start
+
+### 1. Use as a standalone CLI
 
 ```bash
 node bin/repo-scanner.mjs <repo_path> --probe
@@ -39,7 +59,7 @@ node bin/repo-scanner.mjs <repo_path> --git --diff-text-file diff.txt
 node bin/repo-scanner.mjs <repo_path> --all --json
 ```
 
-库接口：
+### 2. Use as a library (higher-level plugins)
 
 ```js
 import { scanRepository } from 'dsh-repo-scanner/scanner';
@@ -48,35 +68,56 @@ const report = await scanRepository({
   repoPath: '.',
   modes: ['probe', 'modules', 'dependencies', 'entries', 'symbols', 'graphs', 'git'],
   maxDepth: 3,
-  cache: true,                 // 增量扫描缓存
-  parsers: ['heuristic'],      // 可插拔解析器（tree-sitter 为可选依赖）
-  symbolQuery: { name: 'auth' }, // 符号查询
+  cache: true,                 // incremental scan cache
+  parsers: ['heuristic'],      // pluggable parsers (tree-sitter is optional)
+  symbolQuery: { name: 'auth' }, // symbol query
   git: { diffText },
 });
 ```
 
-### 事实 API
+### 3. Facts API (for analysis plugins)
 
 ```js
 import {
-  getChangeImpactFacts, // 变更影响：反向依赖传播 + 受影响模块/符号
-  getTestInsightFacts,  // 测试洞察：测试↔源码映射 + 模块覆盖
-  getDocSyncFacts,      // 文档同步：文档引用 + 过期引用
+  getChangeImpactFacts, // change impact: reverse-dependency propagation + affected modules/symbols
+  getTestInsightFacts,  // test insight: test↔source mapping + module coverage
+  getDocSyncFacts,      // doc sync: doc references + stale references
 } from 'dsh-repo-scanner/scanner';
 
 const impact = await getChangeImpactFacts({
   repoPath: '.',
-  git: { statusText }, // 或 diffText / changedFiles
+  git: { statusText }, // or diffText / changedFiles
 });
 ```
 
-## 输出示例
+## CLI Options
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `--max-depth N` | 3 | Maximum directory depth |
+| `--max-files N` | 2000 | Maximum file count |
+| `--max-file-bytes N` | 256000 | Per-file content read limit |
+| `--include-dirs a,b` | empty | Scan only these directories |
+| `--exclude-dirs a,b` | built-in | Extra excluded directories |
+| `--language LANG` | empty | Language filter |
+| `--format json\|jsonl` | json | Output format |
+| `--hash` | off | Compute file sha256 (over raw bytes) |
+| `--strict` | off | Non-zero exit when errors or warnings exist |
+| `--follow-symlinks` | off | Follow symlinks (target must stay inside the repo) |
+| `--cache` / `--cache-dir DIR` | off | Incremental scan cache (writes to temp dirs only) |
+| `--parsers a,b` | heuristic | Symbol parser chain (tree-sitter optional, auto-fallback when missing) |
+| `--symbol-name/file/module` | empty | Symbol query filters |
+| `--perf-budget-ms N` | 60000 | Performance budget (0 disables; overrun writes a warning) |
+
+Exit codes: `0` success; `1` errors present, or warnings present under `--strict`; `2` bad arguments or invalid repo path; `3` output failure or contract violation.
+
+## Output
 
 ```json
 {
   "schema_version": "1.0",
   "analysis_schema": { "name": "dsh-analysis-schema", "version": "1.0" },
-  "tool": { "name": "dsh-repo-scanner", "version": "0.1.1" },
+  "tool": { "name": "dsh-repo-scanner", "version": "0.1.2" },
   "input": { "repo_path": ".", "resolved_path": "C:/work/app", "options": {} },
   "limits": { "max_depth": 3, "max_files": 2000, "max_file_bytes": 256000, "truncated": false, "warnings": [] },
   "project": {},
@@ -94,48 +135,30 @@ const impact = await getChangeImpactFacts({
 }
 ```
 
-完整字段说明见 `docs/output-schema.md`；扫描规则见 `docs/scanning-rules.md`。
+Full field reference: [docs/output-schema.md](docs/output-schema.md).
 
-## 参数与退出码
+## Safety Red Lines
 
-| 参数 | 默认 | 说明 |
-| --- | --- | --- |
-| `--max-depth N` | 3 | 最大目录深度 |
-| `--max-files N` | 2000 | 最大文件数 |
-| `--max-file-bytes N` | 256000 | 单文件内容读取上限 |
-| `--include-dirs a,b` | 空 | 只扫描这些目录 |
-| `--exclude-dirs a,b` | 内置默认 | 追加排除目录 |
-| `--language LANG` | 空 | 语言过滤 |
-| `--format json\|jsonl` | json | 输出格式 |
-| `--hash` | 关 | 计算文件 sha256（按原始字节） |
-| `--strict` | 关 | 存在错误或警告时非零退出 |
-| `--follow-symlinks` | 关 | 跟随符号链接（目标必须在仓库内） |
-| `--cache` / `--cache-dir DIR` | 关 | 增量扫描缓存（只写临时目录） |
-| `--parsers a,b` | heuristic | 符号解析器链（tree-sitter 为可选依赖，缺失自动回退） |
-| `--symbol-name/file/module` | 空 | 符号查询过滤 |
-| `--perf-budget-ms N` | 60000 | 性能预算（0 关闭；超限写 warning） |
+- Never writes to the target repository; no checkout/reset/clean.
+- Never installs dependencies or executes target project code or scripts.
+- Refuses out-of-bounds paths after normalization; symlinks not followed by default.
+- Never spawns subprocesses to obtain file or Git facts (enforced by executable security audit tests).
+- Only imports resolvable inside the repo are classified internal; dynamic import/require goes to `risks`.
+- Output auto-redacts tokens, passwords, connection strings, and JWTs.
 
-退出码：`0` 成功；`1` 存在错误，或 `--strict` 下存在警告；`2` 参数错误或仓库路径无效；`3` 输出失败或契约错误。
+## Relationship to arch-doc / dsh-refactor-insight
 
-## 安全红线
+Both plugins currently ship their own `arch-profile.mjs`. This package extracts that scanning logic so they can reuse it via an npm dependency or the CLI; see [docs/migration-guide.md](docs/migration-guide.md) for the planned migration order and field mapping (planned, not yet executed).
 
-- 不写入目标仓库；不做 checkout/reset/clean。
-- 不安装依赖、不执行目标项目代码或脚本。
-- 路径规范化后拒绝越界；默认不跟随符号链接。
-- 不 spawn 子进程获取文件或 Git 事实（由可执行安全审计测试保障）。
-- 只把能解析到仓库内部的导入归为 internal；动态 import/require 记入 `risks`。
-- 输出对 token/密码/连接串/JWT 自动脱敏。
+## Documentation
 
-## 与 arch-doc / dsh-refactor-insight 的关系
+- [docs/output-schema.md](docs/output-schema.md) — output JSON contract (`schema_version 1.0`, full field tables)
+- [docs/scanning-rules.md](docs/scanning-rules.md) — scanning rules (directory safety, language detection, module detection, dependency resolution, pluggable parsers, cache, performance budget, security audit)
+- [docs/migration-guide.md](docs/migration-guide.md) — plan for migrating analysis plugins onto the shared kernel
+- [examples/](examples/README.md) — output examples
+- [CHANGELOG.md](CHANGELOG.md) — release notes
+- [PLUGIN-MAINTENANCE.md](PLUGIN-MAINTENANCE.md) — repo maintenance runbook
 
-两个插件都有各自的 `arch-profile.mjs`。本包提取其扫描逻辑，通过 npm dependency 或 CLI 被它们复用。迁移顺序与字段映射见 `docs/migration-guide.md`。
+## License
 
-## 开发
-
-```bash
-npm test    # 功能测试 + 安全审计测试
-npm run test:compat    # DSH 0.1.5-rc.2 宿主兼容性门禁
-npm run check
-```
-
-Node >=18。
+[MIT](./LICENSE)
