@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import { InvalidRepoPathError, PathTraversalError } from './errors.mjs';
 
 export const TOOL_NAME = 'dsh-repo-scanner';
-export const TOOL_VERSION = '0.1.1';
+export const TOOL_VERSION = '0.1.2';
 export const SCHEMA_VERSION = '1.0';
 export const ANALYSIS_SCHEMA = Object.freeze({
   name: 'dsh-analysis-schema',

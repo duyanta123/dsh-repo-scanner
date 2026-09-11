@@ -1,6 +1,6 @@
 {
   "name": "dsh-repo-scanner",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "只读仓库事实扫描内核：为 DeepSeek Harness 分析型插件提供可复现的代码库事实。Read-only repository fact scanner kernel for DeepSeek Harness analysis plugins.",
   "repository": {
     "type": "git",
